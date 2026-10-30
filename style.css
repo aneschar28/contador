@@ -1,0 +1,49 @@
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+
+}
+
+div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border:2px solid black ;
+   
+
+}
+
+.solved {
+    width: 100px;
+    background-color: red;
+}
+
+.pending {
+    width: 100px;
+    background-color: blue;
+}
+
+.hold {
+    width: 100px;
+    background-color: gray;
+}
+
+.chats {
+    width: 100px;
+    background-color: green;
+}
+
+.outbound {
+    width: 100px;
+    background-color: orange;
+}
+
+.inbound {
+    width: 100px;
+    background-color: yellow;
+}
+
+
+
