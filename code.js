@@ -5,6 +5,45 @@ let contador_Chats = Number(localStorage.getItem("Chats")) || 0;
 let contador_Outbound = Number(localStorage.getItem("Outbound")) || 0;
 let contador_Inbound = Number(localStorage.getItem("Inbound")) || 0;
 
+const cantidad_Solved = document.getElementById("cantidad_Solved");
+const Sumar_Solved = document.getElementById("sumar_Solved");
+const Restar_Solved = document.getElementById("restar_Solved");
+const Reiniciar_Solved = document.getElementById("reiniciar_Solved");
+
+const cantidad_Pending = document.getElementById("contador_Pending");
+const Sumar_Pending = document.getElementById("sumar_Pending");
+const Restar_Pending = document.getElementById("restar_Pending");
+const Reiniciar_Pending = document.getElementById("reiniciar_Pending");
+
+const cantidad_Hold = document.getElementById("contador_Hold");
+const Sumar_Hold = document.getElementById("sumar_Hold");
+const Restar_Hold = document.getElementById("restar_Hold");
+const Reiniciar_Hold = document.getElementById("reiniciar_Hold");
+
+const cantidad_Chats = document.getElementById("contador_Chats");
+const Sumar_Chats = document.getElementById("sumar_Chats");
+const Restar_Chats = document.getElementById("restar_Chats");
+const Reiniciar_Chats = document.getElementById("reiniciar_Chats");
+
+const cantidad_Outbound = document.getElementById("contador_Outbound");
+const Sumar_Outbound = document.getElementById("sumar_Outbound");
+const Restar_Outbound = document.getElementById("restar_Outbound");
+const Reiniciar_Outbound = document.getElementById("reiniciar_Outbound");
+
+const cantidad_Inbound = document.getElementById("contador_Inbound");
+const Sumar_Inbound = document.getElementById("sumar_Inbound");
+const Restar_Inbound = document.getElementById("restar_Inbound");
+const Reiniciar_Inbound = document.getElementById("reiniciar_Inbound");
+
+const resetmemory = document.getElementById("resetmemory");
+
+cantidad_Solved.innerText = contador_Solved;
+cantidad_Pending.innerText = contador_Pending;
+cantidad_Hold.innerText = contador_Hold;
+cantidad_Chats.innerText = contador_Chats;
+cantidad_Outbound.innerText = contador_Outbound;
+cantidad_Inbound.innerText = contador_Inbound;
+
 function guardarContadores() {
     localStorage.setItem("Solved", contador_Solved);
     localStorage.setItem("Pending", contador_Pending);
@@ -14,10 +53,14 @@ function guardarContadores() {
     localStorage.setItem("Inbound", contador_Inbound);
 }
 
-const cantidad_Solved = document.getElementById("cantidad_Solved");
-const Sumar_Solved = document.getElementById("sumar_Solved");
-const Restar_Solved = document.getElementById("restar_Solved");
-const Reiniciar_Solved = document.getElementById("reiniciar_Solved");
+function resetiarContadores() {
+    localStorage.setItem("Solved", 0);
+    localStorage.setItem("Pending", 0);
+    localStorage.setItem("Hold", 0);
+    localStorage.setItem("Chats", 0);
+    localStorage.setItem("Outbound", 0);
+    localStorage.setItem("Inbound", 0);
+}
 
 function contar_Solved (){
 
@@ -67,10 +110,7 @@ Reiniciar_Solved.addEventListener("click", function() {
 
 
 
-const cantidad_Pending = document.getElementById("contador_Pending");
-const Sumar_Pending = document.getElementById("sumar_Pending");
-const Restar_Pending = document.getElementById("restar_Pending");
-const Reiniciar_Pending = document.getElementById("reiniciar_Pending");
+
 
 function contar_Pending (){
 
@@ -117,11 +157,6 @@ Reiniciar_Pending.addEventListener("click", function() {
 
 
 
-const cantidad_Hold = document.getElementById("contador_Hold");
-const Sumar_Hold = document.getElementById("sumar_Hold");
-const Restar_Hold = document.getElementById("restar_Hold");
-const Reiniciar_Hold = document.getElementById("reiniciar_Hold");
-
 function contar_Hold (){
 
     contador_Hold++
@@ -165,12 +200,6 @@ Reiniciar_Hold.addEventListener("click", function() {
     cantidad_Hold.innerText = contador_Hold
 });
 
-
-
-const cantidad_Chats = document.getElementById("contador_Chats");
-const Sumar_Chats = document.getElementById("sumar_Chats");
-const Restar_Chats = document.getElementById("restar_Chats");
-const Reiniciar_Chats = document.getElementById("reiniciar_Chats");
 
 function contar_Chats (){
 
@@ -217,11 +246,6 @@ Reiniciar_Chats.addEventListener("click", function() {
 
 
 
-const cantidad_Outbound = document.getElementById("contador_Outbound");
-const Sumar_Outbound = document.getElementById("sumar_Outbound");
-const Restar_Outbound = document.getElementById("restar_Outbound");
-const Reiniciar_Outbound = document.getElementById("reiniciar_Outbound");
-
 function contar_Outbound (){
 
     contador_Outbound++
@@ -267,10 +291,7 @@ Reiniciar_Outbound.addEventListener("click", function() {
 
 
 
-const cantidad_Inbound = document.getElementById("contador_Inbound");
-const Sumar_Inbound = document.getElementById("sumar_Inbound");
-const Restar_Inbound = document.getElementById("restar_Inbound");
-const Reiniciar_Inbound = document.getElementById("reiniciar_Inbound");
+
 
 function contar_Inbound (){
 
@@ -314,3 +335,29 @@ Reiniciar_Inbound.addEventListener("click", function() {
     resetiar_Inbound();
     cantidad_Inbound.innerText = contador_Inbound
 });
+
+
+
+
+resetmemory.addEventListener("click", function() {
+
+    if (confirm("¿Estás seguro de reiniciar el contador?")) {
+        
+    resetiarContadores();
+    contador_Solved = 0;
+    contador_Pending = 0;
+    contador_Hold = 0;
+    contador_Chats = 0;
+    contador_Outbound = 0;
+    contador_Inbound = 0;
+    cantidad_Solved.innerText = 0;
+    cantidad_Pending.innerText = 0;
+    cantidad_Hold.innerText = 0;
+    cantidad_Chats.innerText = 0;
+    cantidad_Outbound.innerText = 0;
+    cantidad_Inbound.innerText = 0;
+
+    }
+    
+});
+
