@@ -1,11 +1,3 @@
-body{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-
-}
-
 div{
     display: flex;
     align-items: center;
@@ -14,6 +6,24 @@ div{
    
 
 }
+
+.body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.contenedorprincipal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+
+}
+
+
 
 .solved {
     width: 100px;
