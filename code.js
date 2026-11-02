@@ -1,169 +1,275 @@
+let contador_Solved = Number(localStorage.getItem("Solved")) || 0;
+let contador_Pending = Number(localStorage.getItem("Pending")) || 0;
+let contador_Hold = Number(localStorage.getItem("Hold")) || 0;
+let contador_Chats = Number(localStorage.getItem("Chats")) || 0;
+let contador_Outbound = Number(localStorage.getItem("Outbound")) || 0;
+let contador_Inbound = Number(localStorage.getItem("Inbound")) || 0;
+let ticketNumberHistory = JSON.parse(localStorage.getItem("numeros")) || [];
+const URL = "https://script.google.com/macros/s/AKfycbyxo05YuZgYkzdNdMDrGr3CGXS6ubXObGIZEnozFTgV4nHABNWUUn5mQ38th5ZTi0m-/exec";
 
-<!DOCTYPE html>
-<html lang="es">
+let nombre = document.getElementById("nombre");
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+function enviar(user,ticket,tipe,productivity){
 
-    <title>Ticket Dashboard</title>
+    fetch(URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify({
+        usuario: user,
+        ticket: ticket,
+        categoria: tipe,
+        total: productivity,
+    })
+})
+.then(response => response.text())
+.then(data => console.log(data))
+.catch(error => console.error("Error:", error));
 
-    <link rel="stylesheet" href="style.css">
-</head>
+}
 
-<body>
 
-    <main class="contenedorprincipal">
+function nombreUsuario() {
 
-        <!-- HEADER -->
-        <header class="header">
+    let nombre = prompt("¿Cuál es tu nombre?");
 
-            <div class="titulo">
-                <h2>Dashboard de Tickets</h2>
-                <p>Panel de seguimiento de actividad</p>
-            </div>
+    while (nombre === null || nombre.trim() === "") {
+        nombre = prompt("Debes escribir tu nombre");
+    }
 
-            <div class="agente">
+    return nombre;
+}
 
-                <div class="icono-agente">
-                    <span>👤</span>
-                </div>
+let usuario = nombreUsuario();
+nombre.innerText = usuario
 
-                <div class="datos-agente">
-                    <span class="etiqueta">AGENTE ACTIVO</span>
-                    <h3 id="nombre"></h3>
-                </div>
 
-            </div>
 
-        </header>
+const ticketNumber = document.getElementById("miInput");
 
+const cantidad_Solved = document.getElementById("cantidad_Solved");
+const Sumar_Solved = document.getElementById("sumar_Solved");
 
-        <!-- INPUT TICKET -->
-        <section class="ticket-section">
 
-            <label for="miInput">Número de ticket</label>
+const cantidad_Pending = document.getElementById("contador_Pending");
+const Sumar_Pending = document.getElementById("sumar_Pending");
 
-            <input
-                type="text"
-                id="miInput"
-                placeholder="Introduce el número del ticket"
-            >
 
-        </section>
+const cantidad_Hold = document.getElementById("contador_Hold");
+const Sumar_Hold = document.getElementById("sumar_Hold");
 
 
-        <!-- CONTADORES -->
-        <section class="dashboard">
+const cantidad_Chats = document.getElementById("contador_Chats");
+const Sumar_Chats = document.getElementById("sumar_Chats");
 
 
-            <div class="card solved">
+const cantidad_Outbound = document.getElementById("contador_Outbound");
+const Sumar_Outbound = document.getElementById("sumar_Outbound");
 
-                <span class="card-icon">✓</span>
 
-                <h1 id="cantidad_Solved">0</h1>
-                <h3>Solved</h3>
+const cantidad_Inbound = document.getElementById("contador_Inbound");
+const Sumar_Inbound = document.getElementById("sumar_Inbound");
 
-                <div class="acciones">
-                    <button id="sumar_Solved">+</button>
-            
-                </div>
 
-            </div>
+const resetmemory = document.getElementById("resetmemory");
 
+cantidad_Solved.innerText = contador_Solved;
+cantidad_Pending.innerText = contador_Pending;
+cantidad_Hold.innerText = contador_Hold;
+cantidad_Chats.innerText = contador_Chats;
+cantidad_Outbound.innerText = contador_Outbound;
+cantidad_Inbound.innerText = contador_Inbound;
 
-            <div class="card pending">
 
-                <span class="card-icon">◷</span>
+function guardarContadores() {
+    localStorage.setItem("Solved", contador_Solved);
+    localStorage.setItem("Pending", contador_Pending);
+    localStorage.setItem("Hold", contador_Hold);
+    localStorage.setItem("Chats", contador_Chats);
+    localStorage.setItem("Outbound", contador_Outbound);
+    localStorage.setItem("Inbound", contador_Inbound);
+    localStorage.setItem("numeros", JSON.stringify(ticketNumberHistory));
 
-                <h1 id="contador_Pending">0</h1>
-                <h3>Pending</h3>
+}
 
-                <div class="acciones">
-                    <button id="sumar_Pending">+</button>
-                   
-                </div>
+function resetiarContadores() {
+    localStorage.setItem("Solved", 0);
+    localStorage.setItem("Pending", 0);
+    localStorage.setItem("Hold", 0);
+    localStorage.setItem("Chats", 0);
+    localStorage.setItem("Outbound", 0);
+    localStorage.setItem("Inbound", 0);
+    
+}
 
-            </div>
+function showHistory(letter) {
 
+    let total = contador_Solved+contador_Pending+contador_Hold+contador_Chats+contador_Outbound+contador_Inbound;
+    ticketNumberHistory.push([usuario,Number(ticketNumber.value),letter,total]);
+    console.log(ticketNumberHistory)
+    
+    
+};
 
-            <div class="card hold">
+function contar_Solved (){
 
-                <span class="card-icon">Ⅱ</span>
+    const clase = 'solved'
+    contador_Solved++
+    showHistory(clase)
+    guardarContadores();
+    enviar(nombre.innerText,ticketNumber.value,clase,contador_Solved+contador_Pending+contador_Hold+contador_Chats+contador_Outbound+contador_Inbound)
+    ticketNumber.value ='';
+    
+    
+    return contador_Solved
 
-                <h1 id="contador_Hold">0</h1>
-                <h3>Hold</h3>
+}
 
-                <div class="acciones">
-                    <button id="sumar_Hold">+</button>
-                    
-                </div>
 
-            </div>
+function contar_Pending (){
+    
+    const clase = 'Pending'
+    contador_Pending++
+    showHistory(clase)
+    guardarContadores();
+    enviar(nombre.innerText,ticketNumber.value,clase,contador_Solved+contador_Pending+contador_Hold+contador_Chats+contador_Outbound+contador_Inbound)
+    ticketNumber.value ='';
 
+    return contador_Pending
 
-            <div class="card chats">
+}
 
-                <span class="card-icon"><i data-lucide="message-square">💬</i></span>
 
-                <h1 id="contador_Chats">0</h1>
-                <h3>Chats</h3>
+function contar_Hold (){
 
-                <div class="acciones">
-                    <button id="sumar_Chats">+</button>
-                    
-                </div>
+    const clase = 'On-hold'
+    contador_Hold++
+    showHistory(clase)
+    guardarContadores();
+    enviar(nombre.innerText,ticketNumber.value,clase,contador_Solved+contador_Pending+contador_Hold+contador_Chats+contador_Outbound+contador_Inbound)
+    ticketNumber.value ='';
+    
+    return contador_Hold
 
-            </div>
+}
 
 
-            <div class="card outbound">
 
-                <span class="card-icon">↗</span>
+function contar_Chats (){
 
-                <h1 id="contador_Outbound">0</h1>
-                <h3>Outbound</h3>
+    const clase = 'Chat'
+    contador_Chats++
+    showHistory(clase)
+    guardarContadores();
+    enviar(nombre.innerText,ticketNumber.value,clase,contador_Solved+contador_Pending+contador_Hold+contador_Chats+contador_Outbound+contador_Inbound)
+    ticketNumber.value ='';
+    
+    return contador_Chats
 
-                <div class="acciones">
-                    <button id="sumar_Outbound">+</button>
-                    
-                </div>
+}
 
-            </div>
 
 
-            <div class="card inbound">
+function contar_Outbound (){
 
-                <span class="card-icon">↙</span>
+    const clase = 'Outbound call'
+    contador_Outbound++;
+    showHistory(clase)
+    guardarContadores();
+    enviar(nombre.innerText,ticketNumber.value,clase,contador_Solved+contador_Pending+contador_Hold+contador_Chats+contador_Outbound+contador_Inbound)
+    ticketNumber.value ='';
 
-                <h1 id="contador_Inbound">0</h1>
-                <h3>Inbound</h3>
+    return contador_Outbound
 
-                <div class="acciones">
-                    <button id="sumar_Inbound">+</button>
-                    
-                </div>
+}
 
-            </div>
 
 
-        </section>
+function contar_Inbound (){
 
+    const clase = 'Inbound call'
+    contador_Inbound++
+    showHistory(clase)
+    guardarContadores();
+    enviar(nombre.innerText,ticketNumber.value,clase,contador_Solved+contador_Pending+contador_Hold+contador_Chats+contador_Outbound+contador_Inbound)
+    ticketNumber.value ='';
 
-        <!-- RESET MEMORY -->
-        <div class="reset-container">
+    return contador_Inbound
 
-            <button id="resetmemory" class="reset-memory">
-                ↻ Reset Memory
-            </button>
+}
 
-        </div>
 
 
-    </main>
+Sumar_Solved.addEventListener("click", function() {
 
+    
+    contar_Solved();
+    cantidad_Solved.innerText = contador_Solved
+});
 
-    <script src="code.js"></script>
 
-</body>
-</html>
+Sumar_Pending.addEventListener("click", function() {
+    contar_Pending();
+    cantidad_Pending.innerText = contador_Pending
+});
+
+
+Sumar_Hold.addEventListener("click", function() {
+    contar_Hold();
+    cantidad_Hold.innerText = contador_Hold
+});
+
+
+Sumar_Chats.addEventListener("click", function() {
+    contar_Chats();
+    cantidad_Chats.innerText = contador_Chats
+});
+
+
+Sumar_Outbound.addEventListener("click", function() {
+    contar_Outbound();
+    cantidad_Outbound.innerText = contador_Outbound
+});
+
+
+Sumar_Inbound.addEventListener("click", function() {
+    contar_Inbound();
+    cantidad_Inbound.innerText = contador_Inbound
+});
+
+
+resetmemory.addEventListener("click", function() {
+
+    if (confirm("¿Estás seguro de reiniciar el contador?")) {
+        
+    resetiarContadores();
+    contador_Solved = 0;
+    contador_Pending = 0;
+    contador_Hold = 0;
+    contador_Chats = 0;
+    contador_Outbound = 0;
+    contador_Inbound = 0;
+    ticketNumberHistory = [];
+
+    cantidad_Solved.innerText = 0;
+    cantidad_Pending.innerText = 0;
+    cantidad_Hold.innerText = 0;
+    cantidad_Chats.innerText = 0;
+    cantidad_Outbound.innerText = 0;
+    cantidad_Inbound.innerText = 0;
+    ticketNumber.value ='';
+
+    }
+    
+});
+
+
+// https://docs.google.com/spreadsheets/d/1qybCNPZ28MYXZ5hUc8HV-kaZY3eCsD0fwdP2HOT4Ulk/edit?gid=0#gid=0
+
+
+
+
+
+
