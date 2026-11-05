@@ -13,25 +13,25 @@
 
 <body>
 
-    <main class="contenedorprincipal">
+    <main class="maincontainer"> 
 
         <!-- HEADER -->
         <header class="header">
 
-            <div class="titulo">
-                <h2>Dashboard de Tickets</h2>
-                <p>Panel de seguimiento de actividad</p>
+        <div class="titulo"> <!-- titulo -->
+                <h2>Ticket Dashboard</h2>
+                <p>Activity Tracking Dashboard</p>
             </div>
 
-            <div class="agente">
+            <div class="agente"> 
 
-                <div class="icono-agente">
+                <div class="agent-icon"> 
                     <span>👤</span>
                 </div>
 
-                <div class="datos-agente">
-                    <span class="etiqueta">AGENTE ACTIVO</span>
-                    <h3 id="nombre"></h3>
+                <div class="agent-data"> 
+                    <span class="etiqueta">ACTIVE AGENT</span> 
+                    <h3 id="userNameDisplay"></h3>
                 </div>
 
             </div>
@@ -42,12 +42,12 @@
         <!-- INPUT TICKET -->
         <section class="ticket-section">
 
-            <label for="miInput">Número de ticket</label>
+            <label for="myInput">Ticket number</label> 
 
             <input
                 type="text"
-                id="miInput"
-                placeholder="Introduce el número del ticket"
+                id="myInput"
+                placeholder="Enter the ticket number"
             >
 
         </section>
@@ -61,56 +61,25 @@
 
                 <span class="card-icon">✓</span>
 
-                <h1 id="cantidad_Solved">0</h1>
-                <h3>Solved</h3>
+                <h1 id="solvedQuantity">0</h1>
+                <h3>ticket handled</h3>
 
-                <div class="acciones">
-                    <button id="sumar_Solved">+</button>
+                <div class="actions"> 
+                    <button id="addSolved">+</button>
             
                 </div>
 
             </div>
 
-
-            <div class="card pending">
-
-                <span class="card-icon">◷</span>
-
-                <h1 id="contador_Pending">0</h1>
-                <h3>Pending</h3>
-
-                <div class="acciones">
-                    <button id="sumar_Pending">+</button>
-                   
-                </div>
-
-            </div>
-
-
-            <div class="card hold">
-
-                <span class="card-icon">Ⅱ</span>
-
-                <h1 id="contador_Hold">0</h1>
-                <h3>Hold</h3>
-
-                <div class="acciones">
-                    <button id="sumar_Hold">+</button>
-                    
-                </div>
-
-            </div>
-
-
             <div class="card chats">
 
                 <span class="card-icon"><i data-lucide="message-square">💬</i></span>
 
-                <h1 id="contador_Chats">0</h1>
+                <h1 id="chatsQuantity">0</h1>
                 <h3>Chats</h3>
 
-                <div class="acciones">
-                    <button id="sumar_Chats">+</button>
+                <div class="actions"> 
+                    <button id="addChats">+</button>
                     
                 </div>
 
@@ -121,31 +90,15 @@
 
                 <span class="card-icon">↗</span>
 
-                <h1 id="contador_Outbound">0</h1>
-                <h3>Outbound</h3>
+                <h1 id="outboundQuantity">0</h1>
+                <h3>Calls</h3>
 
-                <div class="acciones">
-                    <button id="sumar_Outbound">+</button>
+                <div class="actions"> 
+                    <button id="addOutbound">+</button>
                     
                 </div>
 
             </div>
-
-
-            <div class="card inbound">
-
-                <span class="card-icon">↙</span>
-
-                <h1 id="contador_Inbound">0</h1>
-                <h3>Inbound</h3>
-
-                <div class="acciones">
-                    <button id="sumar_Inbound">+</button>
-                    
-                </div>
-
-            </div>
-
 
         </section>
 
