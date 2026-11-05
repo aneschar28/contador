@@ -17,7 +17,7 @@ body {
 
 /* CONTENEDOR PRINCIPAL */
 
-.contenedorprincipal {
+.maincontainer {
     max-width: 1400px;
     margin: auto;
     padding: 40px 30px;
@@ -62,7 +62,7 @@ body {
     border-radius: 10px;
 }
 
-.icono-agente {
+.agent-icon {
     width: 45px;
     height: 45px;
     background: #3b82f6;
@@ -75,7 +75,7 @@ body {
     font-size: 22px;
 }
 
-.datos-agente {
+.agent-data {
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -110,7 +110,7 @@ body {
     color: #475569;
 }
 
-#miInput {
+#myInput {
     width: 100%;
     padding: 14px 18px;
 
@@ -123,7 +123,7 @@ body {
     background: white;
 }
 
-#miInput:focus {
+#myInput:focus {
     border-color: #2563eb;
     box-shadow: 0 0 0 3px #dbeafe;
 }
@@ -193,7 +193,7 @@ body {
 
 /* BOTONES */
 
-.acciones {
+.actions {
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -216,12 +216,12 @@ body {
     opacity: 0.8;
 }
 
-.acciones button:first-child {
+.actions button:first-child {
     min-width: 48px;
     font-size: 20px;
 }
 
-.acciones button:last-child {
+.actions button:last-child {
     background: #e2e8f0;
     color: #334155;
 }
@@ -272,32 +272,32 @@ body {
 
 /* BOTONES DE SUMAR */
 
-.solved .acciones button:first-child {
+.solved .actions button:first-child {
     background: #16a34a;
     color: white;
 }
 
-.pending .acciones button:first-child {
+.pending .actions button:first-child {
     background: #2563eb;
     color: white;
 }
 
-.hold .acciones button:first-child {
+.hold .actions button:first-child {
     background: #64748b;
     color: white;
 }
 
-.chats .acciones button:first-child {
+.chats .actions button:first-child {
     background: #0d9488;
     color: white;
 }
 
-.outbound .acciones button:first-child {
+.outbound .actions button:first-child {
     background: #ea580c;
     color: white;
 }
 
-.inbound .acciones button:first-child {
+.inbound .actions button:first-child {
     background: #ca8a04;
     color: white;
 }
@@ -345,7 +345,7 @@ body {
 
 @media (max-width: 480px) {
 
-    .contenedorprincipal {
+    .maincontainer {
         padding: 20px 15px;
     }
 
