@@ -186,7 +186,7 @@ resetmemory.addEventListener("click", function() {
     resetiarContadores();
     counter_Solved = 0;
     counter_Chats = 0;
-    counter_Outbound
+    counter_Outbound = 0;
     ticketNumberHistory = [];
 
     solvedQuantity.innerText = 0;
