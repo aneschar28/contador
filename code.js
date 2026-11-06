@@ -75,7 +75,7 @@ function storeCounters() {
     localStorage.setItem("numbers", JSON.stringify(ticketNumberHistory));
 }
 
-function resetiarContadores() {
+function resetCounters() {
     localStorage.setItem("Solved", 0);
     localStorage.setItem("Chats", 0);
     localStorage.setItem("Outbound", 0);
@@ -183,7 +183,7 @@ resetmemory.addEventListener("click", function() {
 
     if (confirm("¿Estás seguro de reiniciar el contador?")) {
         
-    resetiarContadores();
+    resetCounters();
     counter_Solved = 0;
     counter_Chats = 0;
     counter_Outbound = 0;
