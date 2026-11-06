@@ -1,5 +1,5 @@
 
-/* CONFIGURACIÓN GENERAL */
+/* GENERAL SETTINGS */
 
 * {
     margin: 0;
@@ -15,7 +15,7 @@ body {
 }
 
 
-/* CONTENEDOR PRINCIPAL */
+/* MAIN CONTAINER */
 
 .maincontainer {
     max-width: 1400px;
@@ -38,21 +38,21 @@ body {
     align-items: center;
 }
 
-.titulo h2 {
+.title h2 {
     font-size: 25px;
     font-weight: 600;
 }
 
-.titulo p {
+.title p {
     color: #bfdbfe;
     font-size: 14px;
     margin-top: 6px;
 }
 
 
-/* AGENTE */
+/* AGENT */
 
-.agente {
+.agent {
     display: flex;
     align-items: center;
     gap: 13px;
@@ -81,14 +81,14 @@ body {
     gap: 4px;
 }
 
-.etiqueta {
+.label {
     font-size: 10px;
     letter-spacing: 1.5px;
     color: #93c5fd;
     font-weight: 700;
 }
 
-.agente h3 {
+.agent h3 {
     font-size: 18px;
     color: white;
     font-weight: 600;
@@ -138,7 +138,7 @@ body {
 }
 
 
-/* TARJETAS */
+/* CARDS */
 
 .card {
     background: white;
@@ -159,7 +159,7 @@ body {
 }
 
 
-/* ICONOS */
+/* ICONS */
 
 .card-icon {
     display: flex;
@@ -177,7 +177,7 @@ body {
 }
 
 
-/* NÚMEROS */
+/* NUMBERS */
 
 .card h1 {
     font-size: 48px;
@@ -191,7 +191,7 @@ body {
 }
 
 
-/* BOTONES */
+/* BUTTONS */
 
 .actions {
     display: flex;
@@ -227,7 +227,7 @@ body {
 }
 
 
-/* COLORES DE CADA CONTADOR */
+/* COLORS OF EACH COUNTER */
 
 .solved h1 { color: #16a34a; }
 .pending h1 { color: #2563eb; }
@@ -237,7 +237,7 @@ body {
 .inbound h1 { color: #ca8a04; }
 
 
-/* ICONOS */
+/* ICONS */
 
 .solved .card-icon {
     background: #dcfce7;
@@ -270,7 +270,7 @@ body {
 }
 
 
-/* BOTONES DE SUMAR */
+/* ADD BUTTONS */
 
 .solved .actions button:first-child {
     background: #16a34a;
@@ -359,7 +359,7 @@ body {
         gap: 20px;
     }
 
-    .agente {
+    .agent {
         width: 100%;
     }
 
