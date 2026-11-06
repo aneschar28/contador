@@ -2,28 +2,25 @@ let counter_Solved = Number(localStorage.getItem("Solved")) || 0;
 let counter_Chats = Number(localStorage.getItem("Chats")) || 0;
 let counter_Outbound = Number(localStorage.getItem("Outbound")) || 0;
 let ticketNumberHistory = JSON.parse(localStorage.getItem("numbers")) || [];
-const URL = "https://script.google.com/macros/s/AKfycbyfpSsrQj9WJW_n_82_6uD6gMfCBbhI9g6AVJ7boyetDyXXp85O8lL13Ja_3yni0uq5/exec";
+const API_URL = "PASTE_FUNCTION_URL_HERE";
 
 let userNameDisplay = document.getElementById("userNameDisplay");
 
-function send(user,ticket,tipe,productivity){
-
-    fetch(URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-    },
-    body: JSON.stringify({
-        user: user,
-        ticket: ticket,
-        tipe: tipe,
-        productivity: productivity,
-    })
-})
-.then(response => response.text())
-.catch(error => console.error("Error:", error));
-
+async function send(user, ticket, type) {
+    try {
+        const res = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user, ticket, type }),
+        });
+        if (!res.ok) {
+            console.error("Excel sync failed:", await res.text());
+            alert(`Ticket ${ticket} was NOT logged to Excel. Please try again.`);
+        }
+    } catch (error) {
+        console.error("Network error:", error);
+        alert(`Ticket ${ticket} was NOT logged to Excel (network error). Please try again.`);
+    }
 }
 
 
@@ -98,7 +95,7 @@ function incrementSolvedCount (){
     counter_Solved++
     showHistory(category)
     storeCounters();
-    send(userNameDisplay.innerText,ticketNumber.value,category,counter_Solved+counter_Chats+counter_Outbound)
+    send(userNameDisplay.innerText,ticketNumber.value,category)
     ticketNumber.value ='';
     
     
@@ -113,7 +110,7 @@ function incrementChatsCount (){
     counter_Chats++
     showHistory(category)
     storeCounters();
-    send(userNameDisplay.innerText,ticketNumber.value,category,counter_Solved+counter_Chats+counter_Outbound)
+    send(userNameDisplay.innerText,ticketNumber.value,category)
     ticketNumber.value ='';
 
     return counter_Chats
@@ -127,7 +124,7 @@ function incrementOutboundCount (){
     counter_Outbound++;
     showHistory(category)
     storeCounters();
-    send(userNameDisplay.innerText,ticketNumber.value,category,counter_Solved+counter_Chats+counter_Outbound)
+    send(userNameDisplay.innerText,ticketNumber.value,category)
     ticketNumber.value ='';
 
     return counter_Outbound
