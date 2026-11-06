@@ -2,7 +2,7 @@ let counter_Solved = Number(localStorage.getItem("Solved")) || 0;
 let counter_Chats = Number(localStorage.getItem("Chats")) || 0;
 let counter_Outbound = Number(localStorage.getItem("Outbound")) || 0;
 let ticketNumberHistory = JSON.parse(localStorage.getItem("numbers")) || [];
-const API_URL = "PASTE_FUNCTION_URL_HERE";
+const API_URL = "https://2iiqoukpvctrtkq3wku3l6bzoy0qefiq.lambda-url.us-west-1.on.aws/";
 
 let userNameDisplay = document.getElementById("userNameDisplay");
 
