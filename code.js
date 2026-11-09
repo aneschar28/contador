@@ -2,7 +2,9 @@ let counter_Solved = Number(localStorage.getItem("Solved")) || 0;
 let counter_Chats = Number(localStorage.getItem("Chats")) || 0;
 let counter_Outbound = Number(localStorage.getItem("Outbound")) || 0;
 let ticketNumberHistory = JSON.parse(localStorage.getItem("numbers")) || [];
+let productivity = Number(localStorage.getItem("productivity")) || 0;
 const API_URL = "https://2iiqoukpvctrtkq3wku3l6bzoy0qefiq.lambda-url.us-west-1.on.aws/";
+
 
 let userNameDisplay = document.getElementById("userNameDisplay");
 
@@ -59,9 +61,12 @@ const addOutbound = document.getElementById("addOutbound");
 
 const resetmemory = document.getElementById("resetmemory");
 
+const summary = document.getElementById("productivity");
+
 solvedQuantity.innerText = counter_Solved;
 chatsQuantity.innerText = counter_Chats;
 outboundQuantity.innerText = counter_Outbound;
+summary.innerText = productivity;
 
 
 
@@ -84,7 +89,7 @@ function showHistory(letter) {
 
     let total = counter_Solved+counter_Chats+counter_Outbound;
     ticketNumberHistory.push([user,Number(ticketNumber.value),letter,total]);
-    
+    summary.innerText = total
     
     
 };
@@ -178,7 +183,7 @@ addOutbound.addEventListener("click", function() {
 
 resetmemory.addEventListener("click", function() {
 
-    if (confirm("¿Estás seguro de reiniciar el contador?")) {
+    if (confirm("Are you sure you want to reset all counters?")) {
         
     resetCounters();
     counter_Solved = 0;
@@ -196,7 +201,6 @@ resetmemory.addEventListener("click", function() {
 });
 
 
-// https://docs.google.com/spreadsheets/d/1qybCNPZ28MYXZ5hUc8HV-kaZY3eCsD0fwdP2HOT4Ulk/edit?gid=0#gid=0
 
 
 
