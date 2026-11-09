@@ -1,0 +1,135 @@
+const TOKEN_URL = "https://login.microsoftonline.com/consumers/oauth2/v2.0/token";
+const TABLE = process.env.EXCEL_TABLE_NAME || "Agent_Activity";
+const TZ = process.env.TIMEZONE || "America/Los_Angeles";
+const ALLOWED_TYPES = ["Email Updated", "Chat", "Call"];
+
+// Retry settings for Excel writes. Two agents saving at the same moment can make
+// Graph answer 409/503/504; a short random wait means they retry at different moments.
+const MAX_ATTEMPTS = 3;
+const RETRYABLE = [401, 409, 423, 429, 500, 502, 503, 504];
+const MIN_WAIT_MS = 1000;
+const MAX_WAIT_MS = 3000;
+
+let cachedToken = null;
+let tokenExpiry = 0;
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// CORS is handled by the Function URL config; do NOT add CORS headers here
+// (duplicate Access-Control-Allow-Origin headers make the browser reject the response).
+const json = (statusCode, body) => ({
+  statusCode,
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(body),
+});
+
+const safePath = () =>
+  process.env.MS_EXCEL_FILE_PATH.split("/").map(encodeURIComponent).join("/");
+
+class AuthError extends Error {}
+
+async function getAccessToken() {
+  if (cachedToken && Date.now() < tokenExpiry) return cachedToken;
+
+  const res = await fetch(TOKEN_URL, {
+    method: "POST",
+    body: new URLSearchParams({
+      client_id: process.env.MS_CLIENT_ID,
+      grant_type: "refresh_token",
+      refresh_token: process.env.MS_REFRESH_TOKEN,
+      scope: "Files.ReadWrite offline_access",
+    }),
+    signal: AbortSignal.timeout(5000),
+  });
+  // invalid_grant here means the refresh token expired: repeat Step 3 and update MS_REFRESH_TOKEN.
+  if (!res.ok) throw new AuthError(`MS auth error: ${await res.text()}`);
+  const data = await res.json();
+
+  cachedToken = data.access_token;
+  tokenExpiry = Date.now() + (data.expires_in - 60) * 1000;
+  return cachedToken;
+}
+
+// deadline = timestamp (ms) by which we must stop trying, so we answer before Lambda times out.
+async function addRow(values, deadline) {
+  const url = `https://graph.microsoft.com/v1.0/me/drive/root:/${safePath()}:/workbook/tables/${TABLE}/rows/add`;
+  let lastError = new Error("Ran out of time before writing to Excel");
+
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    const remaining = deadline - Date.now();
+    if (remaining < 2000) break;
+
+    let res = null;
+    try {
+      const token = await getAccessToken();
+      res = await fetch(url, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ values: [values] }),
+        signal: AbortSignal.timeout(Math.min(8000, remaining - 500)),
+      });
+    } catch (err) {
+      if (err instanceof AuthError) throw err; // retrying won't fix a bad refresh token
+      lastError = err; // network blip or request timeout: retry
+    }
+
+    if (res) {
+      if (res.ok) return;
+      const errText = await res.text();
+      lastError = new Error(`Graph error ${res.status}: ${errText}`);
+      if (res.status === 401) cachedToken = null; // force a token refresh on retry
+      if (!RETRYABLE.includes(res.status)) throw lastError;
+    }
+
+    if (attempt === MAX_ATTEMPTS) break;
+
+    // Random wait so colliding agents don't collide again; honor Retry-After if Graph sends one.
+    const retryAfterMs = (Number(res?.headers.get("retry-after")) || 0) * 1000;
+    const jitterMs = MIN_WAIT_MS + Math.random() * (MAX_WAIT_MS - MIN_WAIT_MS);
+    const waitMs = Math.max(retryAfterMs, jitterMs);
+    if (Date.now() + waitMs + 2000 > deadline) break;
+    console.warn(`Excel write attempt ${attempt} failed (${lastError.message}); retrying in ${Math.round(waitMs)} ms`);
+    await sleep(waitMs);
+  }
+
+  throw lastError;
+}
+
+export const handler = async (event, context) => {
+  if (event.requestContext?.http?.method !== "POST") {
+    return json(405, { error: "Method not allowed" });
+  }
+
+  let body;
+  try {
+    const raw = event.isBase64Encoded ? Buffer.from(event.body, "base64").toString() : event.body;
+    body = JSON.parse(raw || "{}");
+  } catch {
+    return json(400, { error: "Invalid JSON" });
+  }
+
+  const user = String(body.user ?? "").trim();
+  const ticket = String(body.ticket ?? "").trim();
+  const type = String(body.type ?? "").trim();
+
+  if (!user || user.length > 100) return json(400, { error: "Invalid user" });
+  if (!ticket || ticket.length > 50) return json(400, { error: "Invalid ticket" });
+  if (!ALLOWED_TYPES.includes(type)) return json(400, { error: "Invalid type" });
+
+  // "sv-SE" yields "YYYY-MM-DD" and "HH:mm:ss", which Excel parses as a real date and time.
+  const now = new Date();
+  const date = now.toLocaleDateString("sv-SE", { timeZone: TZ });
+  const time = now.toLocaleTimeString("sv-SE", { timeZone: TZ });
+
+  // Stop retrying 1 s before the Lambda timeout so we always send a JSON answer.
+  const deadline = Date.now() + context.getRemainingTimeInMillis() - 1000;
+
+  try {
+    // Order must match the table columns: Date | Time | Agent | Ticket | Type
+    await addRow([date, time, user, ticket, type], deadline);
+    return json(200, { success: true });
+  } catch (err) {
+    console.error(err);
+    return json(502, { error: "Failed to write to Excel" });
+  }
+};
