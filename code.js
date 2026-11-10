@@ -195,6 +195,7 @@ resetmemory.addEventListener("click", function() {
     chatsQuantity.innerText = 0;
     outboundQuantity.innerText = 0;
     ticketNumber.value ='';
+    summary.innerText = '0';     
 
     }
     
