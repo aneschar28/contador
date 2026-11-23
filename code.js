@@ -104,16 +104,21 @@ const best_progress_details = document.getElementById("best-progress-details");
 let data = Math.floor(Math.random() * 26); // this will be the number that comes from excel
 
 
-function progress () {
+function progress(solved, chats, outbound, best, goal = 25) {
 
-   progressFill.style.width = `${(counter_Solved+ counter_Chats+ counter_Outbound)*100/25}%`; 
-   progressInfo.innerText = `${counter_Solved+ counter_Chats+ counter_Outbound}`;
-   progressDetails.innerText = `${(counter_Solved+ counter_Chats+ counter_Outbound)*100/25}% achieved`;
-   goalStatus.innerText = `${25-counter_Solved+ counter_Chats+ counter_Outbound} tickets behind`;
-   best_progress_fill.style.width = `${data*100/25}%`;
-   best_performance.innerText = `${data}`;
-   best_progress_details.innerText = `${data*100/25}% achieved`;
+    const total = solved + chats + outbound;
+    const percentage = (total * 100) / goal;
+    const bestPercentage = (best * 100) / goal;
 
+    progressFill.style.width = `${percentage}%`;
+    progressInfo.innerText = total;
+    progressDetails.innerText = `${percentage}% achieved`;
+
+    goalStatus.innerText = `${goal - total} tickets behind`;
+
+    best_progress_fill.style.width = `${bestPercentage}%`;
+    best_performance.innerText = best;
+    best_progress_details.innerText = `${bestPercentage}% achieved`;
 }
 
 solvedQuantity.innerText = counter_Solved;
@@ -121,7 +126,7 @@ chatsQuantity.innerText = counter_Chats;
 outboundQuantity.innerText = counter_Outbound;
 summary.innerText = counter_Solved+ counter_Chats+ counter_Outbound;
 info_box.innerHTML = "<ol>" + ticketNumberHistory.map(ticket => `<li>${ticket[1]} | ${ticket[2]}</li>`).join("") + "</ol>";
-progress();
+progress(counter_Solved, counter_Chats, counter_Outbound, data);
 
 function storeCounters() {
     localStorage.setItem("Solved", counter_Solved);
@@ -147,7 +152,7 @@ function showHistory(letter) {
     console.log(ticketNumberHistory);
     info_box.innerHTML = "<ol>" + ticketNumberHistory.map(ticket => `<li>${ticket[1]} | ${ticket[2]}</li>`).join("") + "</ol>";
     summary.innerText = total;
-    progress()
+    progress(counter_Solved, counter_Chats, counter_Outbound, data);
     
     
 };
@@ -255,6 +260,7 @@ resetmemory.addEventListener("click", function() {
     summary.innerText = 0;
     ticketNumber.value ='';
     info_box.innerHTML = "";
+    progress(0, 0, 0, data);
 
     }
     
