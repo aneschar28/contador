@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -13,86 +13,90 @@
 
 <body>
 
-    <main class="maincontainer"> 
+    <main class="maincontainer">
 
         <!-- HEADER -->
         <header class="header">
 
-           <div class="titulo"> <!-- titulo -->
+            <div class="titulo">
                 <h2>Ticket Dashboard</h2>
                 <p>Activity Tracking Dashboard</p>
             </div>
 
-            <div > 
+            <div class="productivity-display">
+                <span>TOTAL PRODUCTIVITY</span>
                 <h2 id="productivity">0</h2>
             </div>
 
-            <div class="agente"> 
+            <div class="agente">
 
-                <div class="agent-icon"> 
+                <div class="agent-icon">
                     <span>👤</span>
                 </div>
 
-                <div class="agent-data"> 
-                    <span class="etiqueta">ACTIVE AGENT</span> 
+                <div class="agent-data">
+                    <span class="etiqueta">ACTIVE AGENT</span>
                     <h3 id="userNameDisplay"></h3>
                 </div>
-
 
             </div>
 
         </header>
-    
+
+
+        <!-- PERFORMANCE -->
         <div class="performance-card">
 
-    <!-- TICKET PERFORMANCE -->
-    <section class="ticket-performance">
+            <!-- TICKET PERFORMANCE -->
+            <section class="ticket-performance">
 
-        <div class="performance-info">
-            <div>
-                <span>YOUR TICKETS</span>
-                <h2 id="progress-info">0</h2>
-            </div>
+                <div class="performance-info">
 
-            <div class="goal">
-                <span>GOAL</span>
-                <h4>25 tickets</h4>
-            </div>
+                    <div>
+                        <span>YOUR TICKETS</span>
+                        <h2 id="progress-info">0</h2>
+                    </div>
+
+                    <div class="goal">
+                        <span>GOAL</span>
+                        <h4>25 tickets</h4>
+                    </div>
+
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+
+                <div class="progress-details">
+                    <span id="progress-details">0% achieved</span>
+                    <span class="goal-status" id="goal-status">Goal not reached</span>
+                </div>
+
+            </section>
+
+
+            <!-- COMPARISON WITH TOP AGENT -->
+            <section class="agent-comparison">
+
+                <h3>Comparison with top agent</h3>
+
+                <div class="comparison-info">
+                    <h2 id="best-performance">0</h2>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="best-progress-fill"></div>
+                </div>
+
+                <div class="comparison-details">
+                    <span id="best-progress-details">0% of top agent</span>
+                </div>
+
+            </section>
+
         </div>
 
-        <div class="progress-bar">
-            <div class="progress-fill" style="width: 100%;" id="progress-fill"></div>
-        </div>
-
-        <div class="progress-details">
-            <span id="progress-details">0% achieved</span>
-            <span class="goal-status" id="goal-status">Goal exceeded!</span>
-        </div>
-
-    </section>
-
-    <hr>
-
-    <!-- COMPARISON WITH TOP AGENT -->
-    <section class="agent-comparison">
-
-        <h3>Comparison with top agent</h3>
-
-        <div class="comparison-info">
-          <h2 id="best-performance">0</h2>
-        </div> 
-
-        <div class="progress-bar">
-            <div class="progress-fill" style="width: 80%;" id="best-progress-fill"></div>
-        </div>
-
-        <div class="comparison-details">
-            <span id="best-progress-details" >0% of top agent</span>
-        </div>
-
-    </section>
-
-</div>
 
         <!-- INPUT TICKET -->
         <section class="ticket-section">
@@ -104,49 +108,52 @@
             >
 
             <div class="info-container">
-              <button class="info-button">More info</button>
 
-              <div id="info-box">
-                 <p></p>
-              </div>
+                <button class="info-button">More info</button>
+
+                <div id="info-box">
+                    <p></p>
+                </div>
+
             </div>
 
         </section>
 
 
-        <!-- CONTADORES -->
+        <!-- COUNTERS -->
         <section class="dashboard">
 
-
+            <!-- SOLVED -->
             <div class="card solved">
 
                 <span class="card-icon">✓</span>
 
                 <h1 id="solvedQuantity">0</h1>
-                <h3>ticket handled</h3>
+                <h3>Tickets handled</h3>
 
-                <div class="actions"> 
+                <div class="actions">
                     <button id="addSolved">+</button>
-            
                 </div>
 
             </div>
 
+
+            <!-- CHATS -->
             <div class="card chats">
 
-                <span class="card-icon"><i data-lucide="message-square">💬</i></span>
+                <span class="card-icon">💬</span>
 
                 <h1 id="chatsQuantity">0</h1>
                 <h3>Chats</h3>
 
-                <div class="actions"> 
+                <div class="actions">
                     <button id="addChats">+</button>
-                    
                 </div>
 
             </div>
 
 
+            <!-- OUTBOUND -->
             <div class="card outbound">
 
                 <span class="card-icon">↗</span>
@@ -154,9 +161,8 @@
                 <h1 id="outboundQuantity">0</h1>
                 <h3>Calls</h3>
 
-                <div class="actions"> 
+                <div class="actions">
                     <button id="addOutbound">+</button>
-                    
                 </div>
 
             </div>
@@ -172,7 +178,6 @@
             </button>
 
         </div>
-
 
     </main>
 
