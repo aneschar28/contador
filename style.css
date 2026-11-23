@@ -1,5 +1,5 @@
 
-/* CONFIGURACIÓN GENERAL */
+/* GENERAL CONFIGURATION */
 
 * {
     margin: 0;
@@ -15,12 +15,12 @@ body {
 }
 
 
-/* CONTENEDOR PRINCIPAL */
+/* MAIN CONTAINER */
 
 .maincontainer {
     max-width: 1400px;
     margin: auto;
-    padding: 40px 30px;
+    padding: 35px 30px;
 }
 
 
@@ -29,24 +29,19 @@ body {
 .header {
     background: #172554;
     color: white;
-    padding: 25px 35px;
+    padding: 22px 30px;
     border-radius: 14px;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .titulo h2 {
     font-size: 25px;
     font-weight: 600;
-}
-
-#productivity{
-
-    font-size: 80px;
-
 }
 
 .titulo p {
@@ -56,7 +51,27 @@ body {
 }
 
 
-/* AGENTE */
+/* PRODUCTIVITY */
+
+.productivity-display {
+    text-align: center;
+}
+
+.productivity-display span {
+    color: #bfdbfe;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+#productivity {
+    font-size: 48px;
+    line-height: 1.1;
+    margin-top: 4px;
+}
+
+
+/* AGENT */
 
 .agente {
     display: flex;
@@ -64,13 +79,13 @@ body {
     gap: 13px;
 
     background: #263b68;
-    padding: 12px 20px;
+    padding: 10px 18px;
     border-radius: 10px;
 }
 
 .agent-icon {
-    width: 45px;
-    height: 45px;
+    width: 42px;
+    height: 42px;
     background: #3b82f6;
     border-radius: 50%;
 
@@ -95,39 +110,134 @@ body {
 }
 
 .agente h3 {
-    font-size: 18px;
+    font-size: 17px;
     color: white;
     font-weight: 600;
 }
 
 
-/* INPUT TICKET */
+/* PERFORMANCE CARD */
+
+.performance-card {
+    background: white;
+    border: 1px solid #e2e2e2;
+    border-radius: 12px;
+    padding: 16px 22px;
+    color: #111827;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    align-items: center;
+}
+
+.ticket-performance {
+    padding-right: 20px;
+    border-right: 1px solid #e2e8f0;
+}
+
+.performance-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.performance-info,
+.comparison-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.performance-info span {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.performance-info h2,
+.comparison-info h2 {
+    color: #172554;
+    font-size: 23px;
+}
+
+.goal {
+    text-align: right;
+}
+
+.goal h4 {
+    font-size: 15px;
+    margin-top: 3px;
+}
+
+
+/* PROGRESS BARS */
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 9px;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #172554;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+}
+
+.progress-details,
+.comparison-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 11px;
+    color: #64748b;
+}
+
+.goal-status {
+    background: #dcfce7;
+    color: #15803d;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+
+/* COMPARISON */
+
+.comparison-info {
+    margin-bottom: 4px;
+}
+
+.comparison-details {
+    color: #64748b;
+}
+
+
+/* TICKET INPUT */
 
 .ticket-section {
     display: flex;
-    flex-direction: row;
-    max-width: 450px;
-    margin: 0 auto 35px;
-}
-
-.ticket-section label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 9px;
-    color: #475569;
+    align-items: center;
+    gap: 12px;
+    max-width: 600px;
+    margin: 30px auto;
 }
 
 #myInput {
-    width: 100%;
-    padding: 14px 18px;
+    flex: 1;
+    min-width: 0;
+    padding: 13px 17px;
 
     border: 1px solid #cbd5e1;
     border-radius: 9px;
 
-    font-size: 16px;
+    font-size: 15px;
     outline: none;
-
     background: white;
 }
 
@@ -136,18 +246,22 @@ body {
     box-shadow: 0 0 0 3px #dbeafe;
 }
 
+
+/* MORE INFO */
+
 .info-container {
     position: relative;
-    display: inline-block;
+    flex-shrink: 0;
 }
 
 .info-button {
-    padding: 10px 20px;
-    background-color: #172554;
+    padding: 13px 18px;
+    background: #172554;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 14px;
 }
 
 #info-box {
@@ -155,14 +269,18 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
     position: absolute;
     top: 110%;
-    left: 0;
+    right: 0;
+
     width: 260px;
     padding: 15px;
-    background-color: #172554;
+
+    background: #172554;
     color: white;
     border-radius: 8px;
+
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     z-index: 10;
 }
@@ -176,22 +294,29 @@ body {
 
 .dashboard {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 22px;
 }
 
 
-/* TARJETAS */
+/* COUNTER CARDS */
 
 .card {
     background: white;
-    padding: 25px;
+    padding: 23px;
     border-radius: 14px;
 
     text-align: center;
 
     border: 1px solid #e2e8f0;
     box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+
+    min-height: 210px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -202,39 +327,39 @@ body {
 }
 
 
-/* ICONOS */
+/* ICONS */
 
 .card-icon {
     display: flex;
     align-items: center;
     justify-content: center;
 
-    width: 48px;
-    height: 48px;
+    width: 45px;
+    height: 45px;
 
-    margin: 0 auto 15px;
+    margin-bottom: 12px;
 
     border-radius: 50%;
-    font-size: 27px;
+    font-size: 25px;
     font-weight: bold;
 }
 
 
-/* NÚMEROS */
+/* COUNTER NUMBERS */
 
 .card h1 {
-    font-size: 48px;
-    margin-bottom: 5px;
+    font-size: 45px;
+    margin-bottom: 4px;
 }
 
 .card h3 {
-    font-size: 18px;
-    margin-bottom: 22px;
+    font-size: 16px;
+    margin-bottom: 18px;
     color: #475569;
 }
 
 
-/* BOTONES */
+/* BUTTONS */
 
 .actions {
     display: flex;
@@ -243,13 +368,13 @@ body {
 }
 
 .card button {
-    padding: 10px 18px;
+    padding: 9px 20px;
     border: none;
     border-radius: 7px;
 
     cursor: pointer;
 
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
 
     transition: opacity 0.2s;
@@ -259,42 +384,27 @@ body {
     opacity: 0.8;
 }
 
-.actions button:first-child {
-    min-width: 48px;
-    font-size: 20px;
+
+/* COUNTER COLORS */
+
+.solved h1 {
+    color: #16a34a;
 }
 
-.actions button:last-child {
-    background: #e2e8f0;
-    color: #334155;
+.chats h1 {
+    color: #0d9488;
+}
+
+.outbound h1 {
+    color: #ea580c;
 }
 
 
-/* COLORES DE CADA CONTADOR */
-
-.solved h1 { color: #16a34a; }
-.pending h1 { color: #2563eb; }
-.hold h1 { color: #64748b; }
-.chats h1 { color: #0d9488; }
-.outbound h1 { color: #ea580c; }
-.inbound h1 { color: #ca8a04; }
-
-
-/* ICONOS */
+/* ICON COLORS */
 
 .solved .card-icon {
     background: #dcfce7;
     color: #16a34a;
-}
-
-.pending .card-icon {
-    background: #dbeafe;
-    color: #2563eb;
-}
-
-.hold .card-icon {
-    background: #e2e8f0;
-    color: #64748b;
 }
 
 .chats .card-icon {
@@ -307,41 +417,21 @@ body {
     color: #ea580c;
 }
 
-.inbound .card-icon {
-    background: #fef3c7;
-    color: #ca8a04;
-}
 
+/* ADD BUTTON COLORS */
 
-/* BOTONES DE SUMAR */
-
-.solved .actions button:first-child {
+.solved .actions button {
     background: #16a34a;
     color: white;
 }
 
-.pending .actions button:first-child {
-    background: #2563eb;
-    color: white;
-}
-
-.hold .actions button:first-child {
-    background: #64748b;
-    color: white;
-}
-
-.chats .actions button:first-child {
+.chats .actions button {
     background: #0d9488;
     color: white;
 }
 
-.outbound .actions button:first-child {
+.outbound .actions button {
     background: #ea580c;
-    color: white;
-}
-
-.inbound .actions button:first-child {
-    background: #ca8a04;
     color: white;
 }
 
@@ -351,11 +441,11 @@ body {
 .reset-container {
     display: flex;
     justify-content: center;
-    margin-top: 35px;
+    margin-top: 28px;
 }
 
 .reset-memory {
-    padding: 13px 28px;
+    padding: 12px 26px;
 
     background: white;
     color: #172554;
@@ -363,7 +453,7 @@ body {
     border: 1px solid #172554;
     border-radius: 9px;
 
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
 
     cursor: pointer;
@@ -375,120 +465,87 @@ body {
     color: white;
 }
 
-.performance-card {
-    background: white;
-    border: 1px solid #e2e2e2;
-    border-radius: 12px;
-    padding: 18px 12px;
-    color: #111827;
-}
 
-.performance-card h3 {
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 18px;
-}
-
-.performance-info,
-.comparison-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.performance-info span {
-    font-size: 12px;
-    color: #64748b;
-}
-
-.performance-info h2 {
-    color: #172554;
-    font-size: 24px;
-}
-
-.performance-info h2 {
-    color: #172554;
-    font-size: 24px;
-}
-
-.goal {
-    text-align: right;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 18px;
-    background: #f1f1f1;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 12px;
-}
-
-.progress-fill {
-    height: 100%;
-    background: #172554;
-    border-radius: 20px;
-}
-
-.progress-details,
-.comparison-details {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 6px;
-    font-size: 12px;
-    color: #172554;
-}
-
-.goal-status {
-    background: #dcfce7;
-    padding: 3px 8px;
-    border-radius: 12px;
-}
-
-.performance-card hr {
-    border: none;
-    border-top: 1px solid #eee;
-    margin: 26px 0;
-}
-
-.comparison-info {
-    margin-bottom: 18px;
-    font-size: 14px;
-}
-
-.comparison-details {
-    color: #64748b;
-}
-
-
-/* RESPONSIVE */
+/* RESPONSIVE TABLET */
 
 @media (max-width: 750px) {
+
+    .maincontainer {
+        padding: 25px 20px;
+    }
 
     .dashboard {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .performance-card {
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .ticket-performance {
+        padding-right: 12px;
+    }
+
 }
+
+
+/* RESPONSIVE MOBILE */
 
 @media (max-width: 480px) {
 
     .maincontainer {
-        padding: 20px 15px;
-    }
-
-    .dashboard {
-        grid-template-columns: 1fr;
+        padding: 18px 12px;
     }
 
     .header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 20px;
+        gap: 18px;
+    }
+
+    .productivity-display {
+        text-align: left;
     }
 
     .agente {
         width: 100%;
+    }
+
+    .performance-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .ticket-performance {
+        padding-right: 0;
+        padding-bottom: 15px;
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .ticket-section {
+        margin: 22px auto;
+        gap: 8px;
+    }
+
+    #myInput {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .info-button {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .card {
+        min-height: 190px;
     }
 
 }
