@@ -18,7 +18,7 @@
         <!-- HEADER -->
         <header class="header">
 
-        <div class="titulo"> <!-- titulo -->
+           <div class="titulo"> <!-- titulo -->
                 <h2>Ticket Dashboard</h2>
                 <p>Activity Tracking Dashboard</p>
             </div>
@@ -42,18 +42,74 @@
             </div>
 
         </header>
+    
+        <div class="performance-card">
 
+    <!-- TICKET PERFORMANCE -->
+    <section class="ticket-performance">
+
+        <div class="performance-info">
+            <div>
+                <span>YOUR TICKETS</span>
+                <h2 id="progress-info">0</h2>
+            </div>
+
+            <div class="goal">
+                <span>GOAL</span>
+                <h4>25 tickets</h4>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 100%;" id="progress-fill"></div>
+        </div>
+
+        <div class="progress-details">
+            <span id="progress-details">0% achieved</span>
+            <span class="goal-status" id="goal-status">Goal exceeded!</span>
+        </div>
+
+    </section>
+
+    <hr>
+
+    <!-- COMPARISON WITH TOP AGENT -->
+    <section class="agent-comparison">
+
+        <h3>Comparison with top agent</h3>
+
+        <div class="comparison-info">
+          <h2 id="best-performance">0</h2>
+        </div> 
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 80%;" id="best-progress-fill"></div>
+        </div>
+
+        <div class="comparison-details">
+            <span id="best-progress-details" >0% of top agent</span>
+        </div>
+
+    </section>
+
+</div>
 
         <!-- INPUT TICKET -->
         <section class="ticket-section">
-
-            <label for="myInput">Ticket number</label> 
 
             <input
                 type="text"
                 id="myInput"
                 placeholder="Enter the ticket number"
             >
+
+            <div class="info-container">
+              <button class="info-button">More info</button>
+
+              <div id="info-box">
+                 <p></p>
+              </div>
+            </div>
 
         </section>
 
