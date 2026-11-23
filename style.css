@@ -104,6 +104,8 @@ body {
 /* INPUT TICKET */
 
 .ticket-section {
+    display: flex;
+    flex-direction: row;
     max-width: 450px;
     margin: 0 auto 35px;
 }
@@ -132,6 +134,41 @@ body {
 #myInput:focus {
     border-color: #2563eb;
     box-shadow: 0 0 0 3px #dbeafe;
+}
+
+.info-container {
+    position: relative;
+    display: inline-block;
+}
+
+.info-button {
+    padding: 10px 20px;
+    background-color: #172554;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#info-box {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 260px;
+    padding: 15px;
+    background-color: #172554;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+.info-container:hover #info-box {
+    display: flex;
 }
 
 
@@ -336,6 +373,91 @@ body {
 .reset-memory:hover {
     background: #172554;
     color: white;
+}
+
+.performance-card {
+    background: white;
+    border: 1px solid #e2e2e2;
+    border-radius: 12px;
+    padding: 18px 12px;
+    color: #111827;
+}
+
+.performance-card h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 18px;
+}
+
+.performance-info,
+.comparison-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.performance-info span {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.performance-info h2 {
+    color: #172554;
+    font-size: 24px;
+}
+
+.performance-info h2 {
+    color: #172554;
+    font-size: 24px;
+}
+
+.goal {
+    text-align: right;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 18px;
+    background: #f1f1f1;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #172554;
+    border-radius: 20px;
+}
+
+.progress-details,
+.comparison-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #172554;
+}
+
+.goal-status {
+    background: #dcfce7;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.performance-card hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 26px 0;
+}
+
+.comparison-info {
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+
+.comparison-details {
+    color: #64748b;
 }
 
 
