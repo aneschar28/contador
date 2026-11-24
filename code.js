@@ -45,6 +45,8 @@ async function send(user, ticket, type) {
             storeCounters();
 
             alert(`Ticket ${ticket} was NOT logged to Excel. Please try again.`);
+        } else {
+            refreshTopAgent();
         }
 
     } catch (error) {
@@ -57,7 +59,8 @@ async function send(user, ticket, type) {
     }
 }
 
-// This function returns the highest number (ticket amount).
+// Reads today's totals from Excel (via the Lambda):
+// { date, top: { agent, count } | null, agents: [{ agent, count }, ...] }
 
 async function getData() {
     try {
@@ -101,24 +104,37 @@ const best_performance = document.getElementById("best-performance");
 const best_progress_fill = document.getElementById("best-progress-fill");
 const best_progress_details = document.getElementById("best-progress-details");
 
-let data = Math.floor(Math.random() * 26); // this will be the number that comes from excel
+let data = 0;             // top agent's ticket count today, from Excel
+let topAgentName = "";    // top agent's name today, from Excel
 
 
 function progress(solved, chats, outbound, best, goal = 25) {
 
     const total = solved + chats + outbound;
-    const percentage = (total * 100) / goal;
-    const bestPercentage = (best * 100) / goal;
+    const percentage = Math.round((total * 100) / goal);
+    const bestPercentage = Math.round((best * 100) / goal);
 
-    progressFill.style.width = `${percentage}%`;
+    progressFill.style.width = `${Math.min(percentage, 100)}%`;
     progressInfo.innerText = total;
     progressDetails.innerText = `${percentage}% achieved`;
 
-    goalStatus.innerText = `${goal - total} tickets behind`;
+    goalStatus.innerText = total >= goal ? "Goal reached!" : `${goal - total} tickets behind`;
 
-    best_progress_fill.style.width = `${bestPercentage}%`;
+    best_progress_fill.style.width = `${Math.min(bestPercentage, 100)}%`;
     best_performance.innerText = best;
-    best_progress_details.innerText = `${bestPercentage}% achieved`;
+    best_progress_details.innerText = topAgentName
+        ? `${topAgentName} · ${bestPercentage}% of goal`
+        : "No tickets logged today yet";
+}
+
+
+async function refreshTopAgent() {
+    const stats = await getData();
+    if (!stats) return; // keep showing the last known value if the read failed
+
+    data = stats.top ? stats.top.count : 0;
+    topAgentName = stats.top ? stats.top.agent : "";
+    progress(counter_Solved, counter_Chats, counter_Outbound, data);
 }
 
 solvedQuantity.innerText = counter_Solved;
@@ -127,6 +143,8 @@ outboundQuantity.innerText = counter_Outbound;
 summary.innerText = counter_Solved+ counter_Chats+ counter_Outbound;
 info_box.innerHTML = "<ol>" + ticketNumberHistory.map(ticket => `<li>${ticket[1]} | ${ticket[2]}</li>`).join("") + "</ol>";
 progress(counter_Solved, counter_Chats, counter_Outbound, data);
+refreshTopAgent();
+setInterval(refreshTopAgent, 60000); // pick up other agents' tickets every minute
 
 function storeCounters() {
     localStorage.setItem("Solved", counter_Solved);

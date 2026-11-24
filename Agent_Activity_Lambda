@@ -10,8 +10,14 @@ const RETRYABLE = [401, 409, 423, 429, 500, 502, 503, 504];
 const MIN_WAIT_MS = 1000;
 const MAX_WAIT_MS = 3000;
 
+// Reading stats: every open dashboard polls GET, so keep the answer for a few seconds
+// instead of downloading the whole table from Graph on every request.
+const STATS_CACHE_MS = 15000;
+
 let cachedToken = null;
 let tokenExpiry = 0;
+let cachedStats = null;
+let statsExpiry = 0;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -95,8 +101,70 @@ async function addRow(values, deadline) {
   throw lastError;
 }
 
+// Reads every data row of the table: [[Date, Time, Agent, Ticket, Type], ...]
+async function readRows() {
+  const url = `https://graph.microsoft.com/v1.0/me/drive/root:/${safePath()}:/workbook/tables/${TABLE}/dataBodyRange?$select=values`;
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const token = await getAccessToken();
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+      signal: AbortSignal.timeout(8000),
+    });
+    if (res.ok) return (await res.json()).values || [];
+    if (res.status === 401 && attempt === 1) {
+      cachedToken = null; // token went stale: refresh once and retry
+      continue;
+    }
+    throw new Error(`Graph error ${res.status}: ${await res.text()}`);
+  }
+}
+
+// Excel turns the "YYYY-MM-DD" we write into a date serial number (e.g. 46350),
+// so the Date column can come back as either a number or a string.
+function toDateKey(value) {
+  if (typeof value === "number") {
+    return new Date(Math.round((value - 25569) * 86400000)).toISOString().slice(0, 10);
+  }
+  return String(value ?? "").trim().slice(0, 10);
+}
+
+// Ticket count per agent for today, highest first.
+async function getTodayStats() {
+  const today = new Date().toLocaleDateString("sv-SE", { timeZone: TZ });
+  if (cachedStats?.date === today && Date.now() < statsExpiry) return cachedStats;
+
+  const counts = new Map();
+  for (const [date, , agent] of await readRows()) {
+    if (toDateKey(date) !== today) continue;
+    const name = String(agent ?? "").trim();
+    if (!name) continue;
+    const key = name.toLowerCase(); // "erwin" and "Erwin " count as the same agent
+    const entry = counts.get(key) || { agent: name, count: 0 };
+    entry.count++;
+    counts.set(key, entry);
+  }
+
+  const agents = [...counts.values()].sort((a, b) => b.count - a.count);
+  cachedStats = { date: today, top: agents[0] || null, agents };
+  statsExpiry = Date.now() + STATS_CACHE_MS;
+  return cachedStats;
+}
+
 export const handler = async (event, context) => {
-  if (event.requestContext?.http?.method !== "POST") {
+  const method = event.requestContext?.http?.method;
+
+  // GET: today's per-agent totals and the top agent, read from the Excel table.
+  if (method === "GET") {
+    try {
+      return json(200, await getTodayStats());
+    } catch (err) {
+      console.error(err);
+      return json(502, { error: "Failed to read from Excel" });
+    }
+  }
+
+  if (method !== "POST") {
     return json(405, { error: "Method not allowed" });
   }
 
@@ -127,6 +195,7 @@ export const handler = async (event, context) => {
   try {
     // Order must match the table columns: Date | Time | Agent | Ticket | Type
     await addRow([date, time, user, ticket, type], deadline);
+    cachedStats = null; // the next GET on this instance includes the new row
     return json(200, { success: true });
   } catch (err) {
     console.error(err);
